@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Beautiful Table with CSV Data</title>
+
+        <!-- Include DataTables CSS and JS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    </head>
+    <body>
+
+        <!-- Table container -->
+        <div style="width: 80%; margin: 20px 0 0 0; float: left;">
+            <table id="beautifulTable" class="display">
+                <thead>
+                    <!-- Headers will be loaded dynamically from CSV -->
+                </thead>
+                <tbody>
+                    <!-- Data will be loaded dynamically from CSV -->
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- Custom CSS for centering -->
+        <style>
+            .center { text-align: center; }
+            th.dt-center, td.dt-center { text-align: center; }
+        </style>
+
+        <!-- Initialize DataTable -->
+        <script>
+            $(document).ready(function() {
+                // Load data from CSV
+                $.ajax({
+                    type: "GET",
+                    url: "{{ data_source_url }}",
+                    dataType: "text",
+                    success: function(data) {
+                        processData(data);
+                    }
+                });
+
+                function processData(allText) {
+                    var allTextLines = allText.split(/\r\n|\n/);
+                    var headers = allTextLines[0].split(',');
+                    var lines = [];
+
+                    // Generate table headers
+                    var headerHTML = '<tr>';
+                    for (var i = 0; i < headers.length; i++) {
+                        headerHTML += '<th class="center">' + headers[i] + '</th>';
+                    }
+                    headerHTML += '</tr>';
+                    $('#beautifulTable thead').html(headerHTML);
+
+                    for (var i = 1; i < allTextLines.length; i++) {
+                        var data = allTextLines[i].split(',');
+                        if (data.length == headers.length) {
+                            var tarr = [];
+                            for (var j = 0; j < headers.length; j++) {
+                                tarr.push(data[j]);
+                            }
+                            lines.push(tarr);
+                        }
+                    }
+
+                    // Populate DataTable
+                    $('#beautifulTable').DataTable({
+                        data: lines,
+                        columns: headers.map(function(header) {
+                            return { title: header, className: "center" };
+                        }),
+                        "lengthMenu": [10, 20, 50, 100],
+                        "autoWidth": true // Enable auto column width adjustment
+                    });
+                }
+            });
+        </script>
+    </body>
+</html><!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Beautiful Table with CSV Data</title>
+
+        <!-- Include DataTables CSS and JS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    </head>
+    <body>
+
+        <!-- Table container -->
+        <div style="width: 80%; margin: 20px 0 0 0; float: left;">
+            <table id="beautifulTable" class="display">
+                <thead>
+                    <!-- Headers will be loaded dynamically from CSV -->
+                </thead>
+                <tbody>
+                    <!-- Data will be loaded dynamically from CSV -->
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- Custom CSS for centering -->
+        <style>
+            .center { text-align: center; }
+            th.dt-center, td.dt-center { text-align: center; }
+        </style>
+
+        <!-- Initialize DataTable -->
+        <script>
+            $(document).ready(function() {
+                // Load data from CSV
+                $.ajax({
+                    type: "GET",
+                    url: "{{ data_source_url }}",
+                    dataType: "text",
+                    success: function(data) {
+                        processData(data);
+                    }
+                });
+
+                function processData(allText) {
+                    var allTextLines = allText.split(/\r\n|\n/);
+                    var headers = allTextLines[0].split(',');
+                    var lines = [];
+
+                    // Generate table headers
+                    var headerHTML = '<tr>';
+                    for (var i = 0; i < headers.length; i++) {
+                        headerHTML += '<th class="center">' + headers[i] + '</th>';
+                    }
+                    headerHTML += '</tr>';
+                    $('#beautifulTable thead').html(headerHTML);
+
+                    for (var i = 1; i < allTextLines.length; i++) {
+                        var data = allTextLines[i].split(',');
+                        if (data.length == headers.length) {
+                            var tarr = [];
+                            for (var j = 0; j < headers.length; j++) {
+                                tarr.push(data[j]);
+                            }
+                            lines.push(tarr);
+                        }
+                    }
+
+                    // Populate DataTable
+                    $('#beautifulTable').DataTable({
+                        data: lines,
+                        columns: headers.map(function(header) {
+                            return { title: header, className: "center" };
+                        }),
+                        "lengthMenu": [10, 20, 50, 100],
+                        "autoWidth": true // Enable auto column width adjustment
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
